@@ -1,0 +1,82 @@
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx
+spec:
+  service_type: ClusterIP # ClusterIP nodeport
+  
+  projects_persistence: true
+  projects_storage_access_mode: ReadWriteOnce
+  projects_storage_size: 5Gi
+  admin_password_secret: awx-admin-password
+
+  postgres_configuration_secret: awx-postgres-configuration
+  image: quay.io/ansible/awx
+  image_version: "24.6.1"
+  image_pull_policy: IfNotPresent
+  image_pull_secret: acrregistry
+  redis_image: docker.io/library/redis
+  redis_image_version: "7"
+
+  ee_images:
+    - name: "AWX EE (latest)"
+      image: "quay.io/ansible/awx-ee:24.6.1"
+    - name: "AWX EE (2.15)"
+      image: "docker.io/crittan/awx-builder-ee:2.15"
+    - name: "AWX EE (2.12)"
+      image: "docker.io/crittan/awx-builder-ee:2.12"
+
+  control_plane_ee_image: quay.io/ansible/awx-ee:24.6.1
+  init_container_image: quay.io/ansible/awx-ee
+  init_container_image_version: 24.6.1
+  init_projects_container_image: quay.io/centos/centos:stream9
+
+  # Requerimientos de recursos para el servicio web de AWX
+  web_resource_requirements:
+      requests:
+        cpu: "500m"
+        memory: "1Gi"
+      limits:
+        cpu: "1"
+        memory: "2Gi"
+
+  # Requerimientos de recursos para las tareas de AWX
+  task_resource_requirements:
+    requests:
+      cpu: "500m"
+      memory: "1Gi"
+    limits:
+      cpu: "1"
+      memory: "2Gi"
+  
+  # Requerimientos de recursos para el entorno de ejecución de AWX
+  ee_resource_requirements:
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
+    limits:
+      cpu: "500m"
+      memory: "1Gi"
+
+  # Requerimientos de recursos para Redis de AWX
+  redis_resource_requirements:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+    limits:
+      cpu: "150m"
+      memory: "256Mi"
+
+  # Requerimientos de recursos para RSYSLOG de AWX
+  rsyslog_resource_requirements:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "250m"
+      memory: "512Mi"
+
+  # Configuración para LDAPS
+  ca_trust_bundle: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+  bundle_cacert_secret: awx-custom-certs
