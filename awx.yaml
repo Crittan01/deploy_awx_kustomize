@@ -15,7 +15,7 @@ spec:
   image: quay.io/ansible/awx
   image_version: "24.6.1"
   image_pull_policy: IfNotPresent
-  image_pull_secret: acrregistry
+#  image_pull_secret: acrregistry
   redis_image: docker.io/library/redis
   redis_image_version: "7"
 
@@ -78,5 +78,5 @@ spec:
       memory: "512Mi"
 
   # Configuración para LDAPS
-  ca_trust_bundle: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
-  bundle_cacert_secret: awx-custom-certs
+#  ca_trust_bundle: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+#  bundle_cacert_secret: awx-custom-certs
