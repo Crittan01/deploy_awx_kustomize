@@ -475,3 +475,6 @@ Verificar que los contextos están configurados correctamente:
 
 kubectl config get-contexts
 Verificar que puedes listar los pods en el namespace awx:
+
+      imagePullSecrets:
+      - name: redhat-operators-pull-secret
