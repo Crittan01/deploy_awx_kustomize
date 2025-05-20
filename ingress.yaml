@@ -5,15 +5,10 @@ metadata:
   name: awx-ingress
   namespace: awx
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
-  tls:
-    - hosts:
-        - awx.colcomercio.com.co
-      secretName: awx-tls
   rules:
-    - host: awx.colcomercio.com.co
+    - host: oracle9awx.labrhel.com
       http:
         paths:
           - path: /
